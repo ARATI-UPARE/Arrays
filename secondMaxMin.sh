@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/bash 
 
-# WAP to find out second max and min number from array of 10-random numbers
+# WAP to find out second max and min number from array of 10-random numbers using sorting of array.
 
 declare -a array
 
@@ -8,30 +8,25 @@ for (( arrValue=1; arrValue<=10; arrValue++ )) #array input
 do
 		array[$arrValue]=$(( RANDOM%900 + 100 ))
 done
-echo ${array[@]}                              #display array elements
 
-max=0
-secmax=0
+length=${#array[@]}        # length of array
 
-for key in "${!array[@]}";
+temp=0
+# Sort the elements of array
+
+for (( outLoop=1; outLoop<=$(($length - 1 )); outLoop++ ))
 do
-		if [[ array[$key] -gt $max ]]				# array element is greater than max 
-		then
-				secmax=$max
-				max="${array[$key]}"
-		fi
+		for(( inLoop=$(( $outLoop + 1 )); inLoop<=$length; inLoop++ ))
+		do
+				if [[ array[$outLoop] -lt array[$inLoop] ]] 
+				then
+						temp="${array[$outLoop]}"
+						array[$outLoop]="${array[$inLoop]}"
+						array[$inLoop]=$temp
+				fi
+		done
 done
-echo $secmax
+echo "Sorted array is : ${array[@]}"
+echo "Second Maximun number is ${array[2]}"
+echo "Second minimum number is ${array[$(( $length-1 ))]} "
 
-min=1000
-secmin=1000
-
-for key in "${!array[@]}"
-do
-		if [[ array[$key] -lt $min ]]
-		then
-				secmin=$min
-				min="${array[$key]}"
-		fi
-done
-echo $secmin
